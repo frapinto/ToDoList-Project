@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="edit-container">
+        <h1>Edit Todo</h1>
+        <form method="POST">
+            <input type="text" name="todo" value="{{ todo.task }}" required>
+            <input type="datetime-local"
+                   name="deadline"
+                   class="datetime-input"
+                   value="{% if todo.deadline %}{{ todo.deadline.strftime('%Y-%m-%dT%H:%M') }}{% endif %}">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a href="{{ url_for('index') }}" class="btn">Cancel</a>
+        </form>
+        <br>
+     </div>
+{% endblock %}

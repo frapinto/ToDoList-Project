@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="centered-container">
+    <h1>Todo List</h1>
+
+    <div class="form-container">
+        <form action="{{ url_for('add') }}" method="POST">
+            <input type="text" name="todo" placeholder="Add new task" required>
+            <div class="datetime-container">
+                <input type="datetime-local"
+                       name="deadline"
+                       class="datetime-input">
+            </div>
+            <button class="btn btn-primary btn-block" type="submit">Add Task</button>
+        </form>
+    </div>
+
+    <div class="todos-container">
+        <ul class="todos-list">
+            {% for todo in todos %}
+            <li class="todo-item {% if todo.done %}done{% endif %}">
+                <div class="todo-content">
+                    <span class="task-text">{{ todo.task }}</span>
+                    <input type="checkbox"
+                           onclick="window.location.href='{{ url_for('check', id=todo.id) }}'"
+                           {% if todo.done %}checked{% endif %}>
+                </div>
+                <div class="todo-meta">
+                    <span class="meta-date">Created: {{ todo.created.strftime('%Y-%m-%d %H:%M') }}</span>
+                    {% if todo.deadline %}
+                    <span class="meta-deadline">Deadline: {{ todo.deadline.strftime('%Y-%m-%d %H:%M') }}</span>
+                    {% endif %}
+                </div>
+                <div class="todo-actions">
+                    <a href="{{ url_for('edit', id=todo.id) }}" class="btn">Edit</a>
+                    <a href="{{ url_for('delete', id=todo.id) }}" class="btn">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
